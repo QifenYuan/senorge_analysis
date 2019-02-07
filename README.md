@@ -42,7 +42,7 @@ The map below shows the correlation coeffient between annual values of precipita
 
 ### Conclusions
 
-The seNorge2018 seems to outperform the other products, in particular the verions 2.0 and 2.2.
+The seNorge2018 product seems to outperform the earlier versions, in particular the versions 2.0 and 2.2. However, precipitation in the seNorge2018 product is too low compared to the sum of discharge and evapotranspiration indicated by the slope of regression line, which equals 0.87. Since the scatter around the regression line is almost constant for different values of precipitation, this underestimation can likely be removed using, for example, a simple correction factor.
 
 ## Code structure
 
