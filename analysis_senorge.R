@@ -377,6 +377,83 @@ g <- arrangeGrob(map1, map2, map3, map4, ncol = 2, nrow = 2)
 ggsave(file = "figures/map_prec_div_runoff.png", g, units = "cm", width = 20, height = 20)
 
 
+# Plot map with ratio between precipitation and runoff --------------------
+
+# Prepare shape file
+
+no_df <- readOGR(dsn = "norway_shapefiles" , layer = "norge")
+
+# Categorise data
+
+pbreaks <- c(0.0, 0.8, 1.2, 1.6, 2.0, 3.0)
+
+df_map <- data.frame(utm_east = df_all$utm_east,
+                     utm_north = df_all$utm_north,
+                     ratio_v10 = cut(df_all$prec_v10/(df_all$qobs_v10 + df_all$aet_v10),pbreaks),
+                     ratio_v20 = cut(df_all$prec_v20/(df_all$qobs_v20 + df_all$aet_v20),pbreaks),
+                     ratio_v22 = cut(df_all$prec_v22/(df_all$qobs_v22 + df_all$aet_v22),pbreaks),
+                     ratio_v2018 = cut(df_all$prec_v2018/(df_all$qobs_v2018 + df_all$aet_v2018),pbreaks))
+
+# Plot data
+
+cbPalette <- c('#5060E8', '#91bfdb','#fee090','#fc8d59','#d73027')
+
+labels = c("< 0.8", "0.8 - 1.2", "1.2 - 1.6", "1.6 - 2.0", "> 2.0")
+
+map1 <- ggplot(df_map, aes(x = utm_east, y = utm_north)) +
+  geom_polygon(data = no_df, aes(long, lat , group=group), fill = "white", color = "gray") +
+  geom_point(aes(colour = ratio_v10), size = 2) +   # Color according to senorge version
+  geom_point(shape = 1, size = 2, colour = "black") +
+  theme_classic(base_size = 10) +
+  scale_colour_manual(values = cbPalette, drop = FALSE, labels = labels) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
+  coord_fixed(ratio = 1) +
+  theme(legend.position = c(0.7,0.4), legend.title=element_blank(), legend.text = element_text(size = 12)) +
+  ggtitle("seNorge v1.0")
+
+map2 <- ggplot(df_map, aes(x = utm_east, y = utm_north)) +
+  geom_polygon(data = no_df, aes(long, lat , group=group), fill = "white", color = "gray") +
+  geom_point(aes(colour = ratio_v20), size = 2) +   # Color according to senorge version
+  geom_point(shape = 1, size = 2, colour = "black") +
+  theme_classic(base_size = 10) +
+  scale_colour_manual(values = cbPalette, drop = FALSE, labels = labels) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
+  coord_fixed(ratio = 1) +
+  theme(legend.position = c(0.7,0.4), legend.title=element_blank(), legend.text = element_text(size = 12)) +
+  ggtitle("seNorge v2.0")
+
+map3 <- ggplot(df_map, aes(x = utm_east, y = utm_north)) +
+  geom_polygon(data = no_df, aes(long, lat , group=group), fill = "white", color = "gray") +
+  geom_point(aes(colour = ratio_v22), size = 2) +   # Color according to senorge version
+  geom_point(shape = 1, size = 2, colour = "black") +
+  theme_classic(base_size = 10) +
+  scale_colour_manual(values = cbPalette, drop = FALSE, labels = labels) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
+  coord_fixed(ratio = 1) +
+  theme(legend.position = c(0.7,0.4), legend.title=element_blank(), legend.text = element_text(size = 12)) +
+  ggtitle("seNorge v2.2")
+
+map4 <- ggplot(df_map, aes(x = utm_east, y = utm_north)) +
+  geom_polygon(data = no_df, aes(long, lat , group=group), fill = "white", color = "gray") +
+  geom_point(aes(colour = ratio_v2018), size = 2) +   # Color according to senorge version
+  geom_point(shape = 1, size = 2, colour = "black") +
+  theme_classic(base_size = 10) +
+  scale_colour_manual(values = cbPalette, drop = FALSE, labels = labels) +
+  theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank()) +
+  theme(axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) +
+  coord_fixed(ratio = 1) +
+  theme(legend.position = c(0.7,0.4), legend.title=element_blank(), legend.text = element_text(size = 12)) +
+  ggtitle("seNorge v2018")
+
+grid.arrange(map1, map2, map3, map4, ncol = 2, nrow = 2)
+
+g <- arrangeGrob(map1, map2, map3, map4, ncol = 2, nrow = 2)
+
+ggsave(file = "figures/map_prec_div_runoff_plus_aet.png", g, units = "cm", width = 20, height = 20)
+
 
 # Plot map with correlation between precipitation and runoff --------------
 
