@@ -1,6 +1,6 @@
 # Analysis of seNorge precipitation data
 
-In this analysis, we evaluate several of the seNorge precipitation products against observed runoff for a set of catchments with high quality discharge data throughout mainland Norway. The goal of this analysis is mainly to test whether the products can capture the annual water balance for the individual watersheds. We use data for the period from 2000-01-01 to 2013-12-31 in this analysis.
+In this analysis, we evaluate several of the seNorge precipitation products against observed runoff and estimated actual evapotranspiration for a set of catchments throughout mainland Norway. The runoff measurements are generally of high quality, but have not been rigorously tested for all stations. Catchments with high degree of glacierization have been omitted. The goal of this analysis is mainly to test whether the precipitation products can capture the annual water balance for the individual watersheds. We use data for the period from 2000-01-01 to 2013-12-31 in this analysis.
 
 ## Results
 
@@ -14,11 +14,11 @@ The scatter plots below show precipitation against runoff (catchment averages) f
 
 The scatter plots below show precipitation against runoff plus evapotranspiration (catchment averages) for the whole study period. Evapotranspiration was aquired from the [MODIS satellite product](http://www.ntsg.umt.edu/project/modis/mod16.php). This analysis, thus, takes all water balance terms into account unlike the evaluation shown above. We find that the version 2018 captures the water balance much better than the remaining products since:
 
-- The intercept is closer to zero than any of the other product.
+- The intercept of the regression line is closer to zero than any of the other products.
 - The slope of the regression line is near unity, and only the seNorge v1.0 shows somewhat better performance in this respect.
 - The squared correlation coefficient is highest among the products.
 
-Thus, overall the newest product shows a clear improvement over the older ones.
+Thus, overall the newest product shows a clear improvement over the older ones. Note also the homoscedasticity of the error terms in the seNorge2018 product.
 
 ![water_balance](figures/scatter_water_balance.png)
 
@@ -34,15 +34,22 @@ The maps below show catchment precipitation divided by runoff. These maps reflec
 
 ![prec_runoff_map](figures/map_prec_div_runoff.png)
 
+
+### Precipitation divided by runoff plus actual evapotranspiration
+
+The maps below show catchment precipitation divided by runoff plus actual evapotranspiration. Thus, these maps show the inputs divided by the outputs for each watershed, and the ratio should ideally equal one. The results are similar to those presented in the maps above. However, note that the high ratio between precipitation and runoff visible in the southeastern part of Norway in the maps above for v2018 have disappeared; the estimated precipitation in this region seems roughly correct when taking evapotranspiration into account.
+
+![prec_runoff_aet_map](figures/map_prec_div_runoff_plus_aet.png)
+
 ### Correlation between annual precipitation and runoff
 
-The map below shows the correlation coeffient between annual values of precipitation and runoff. All products show rather similar results in this respect, at least when shown as individual values on a map.
+The maps below shows the correlation coeffient between annual values of precipitation and runoff. All products show rather similar results in this respect, at least when shown as individual values on a map.
 
 ![correlation_analysis](figures/map_corr_prec_runoff.png)
 
 ### Conclusions
 
-The seNorge2018 product seems to outperform the earlier versions, in particular the versions 2.0 and 2.2. However, precipitation in the seNorge2018 product is too low compared to the sum of discharge and evapotranspiration indicated by the slope of regression line, which equals 0.87. Since the scatter around the regression line is almost constant for different values of precipitation, this underestimation can likely be removed using, for example, a simple correction factor.
+The seNorge2018 product seems to outperform the earlier versions, in particular the versions 2.0 and 2.2. However, precipitation in the seNorge2018 product is somewhat low compared to the sum of discharge and evapotranspiration indicated by the slope of regression line, which equals 0.87. Thus, still some improvements possible. Note that this analysis does only reveal some information about the long termn water balance, but nothing about single precipitation events.
 
 ## Code structure
 
